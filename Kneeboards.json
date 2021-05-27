@@ -1,0 +1,37 @@
+[
+    {
+        "name": "Basic",
+        "parent": "/Kneeboard",
+        "subcat": [
+            {
+                "name": "basic",
+                "files": [
+                "/WC TAC-C2.png",
+                "/Wildcats Brevity Codes.png",
+                "/Wildcats SAM Threat.jpg",
+                "/Wildcats SSR CODES.png"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "VFA-27",
+        "parent": "/Kneeboard/FA-18C_hornet/",
+        "subcat": [
+            {
+                "name": "basic",
+                "files": [
+                "00_FA-18C_hornet_KS_Day_03.png",
+                "JCP_Airfields_1.png",
+                "JCP_INTERFLIGHT.png"
+                ]
+            },
+            {
+                "name": "Case 1 training",
+                "files": [
+                "JCP_VFA-27_1.png"
+                ]
+            }
+        ]
+    }
+]
