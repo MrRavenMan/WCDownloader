@@ -5,6 +5,7 @@
         "subcat": [
             {
                 "name": "basic",
+                "default": true,
                 "files": [
                 "/WC TAC-C2.png",
                 "/Wildcats Brevity Codes.png",
@@ -20,6 +21,7 @@
         "subcat": [
             {
                 "name": "basic",
+                "default": true,
                 "files": [
                 "00_FA-18C_hornet_KS_Day_03.png",
                 "JCP_Airfields_1.png",
@@ -28,6 +30,7 @@
             },
             {
                 "name": "Case 1 training",
+                "default": false,
                 "files": [
                 "JCP_VFA-27_1.png"
                 ]
