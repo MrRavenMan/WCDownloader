@@ -1,7 +1,7 @@
 [
     {
         "name": "Basic",
-        "parent": "/Kneeboard",
+        "parent": "Kneeboard/",
         "subcat": [
             {
                 "name": "basic",
@@ -18,7 +18,7 @@
     },
     {
         "name": "VFA-27",
-        "parent": "/Kneeboard/FA-18C_hornet/",
+        "parent": "Kneeboard/FA-18C_hornet/",
         "subcat": [
             {
                 "name": "basic",
@@ -37,6 +37,32 @@
                 "files": [
                 "JCP_VFA-27_1.png"
                 ]
+            }
+        ]
+    },
+    {
+        "name": "14TH FS",
+        "parent": "Kneeboard/F-16C_50/",
+        "subcat": [
+            {
+                "name": "basic",
+                "default": true,
+                "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
+                "files": [
+                "JCP_Airfields_1.png",
+                "JCP_FS14_1.png",
+                "JCP_INTERFLIGHT.png"
+                ]
+            },
+            {
+                "name": "Case 1",
+                "description": "These kneeboards which may help you with your CASE 1 landings",
+                "default": false,
+                "files": [
+                    "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-01.png",
+                    "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-02.png",
+                    "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-03.png"
+                    ]
             }
         ]
     }
