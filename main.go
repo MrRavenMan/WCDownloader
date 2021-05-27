@@ -37,6 +37,26 @@ type Item struct {
 	Type         string `json:"type"`
 }
 
+type KneeboardCat struct {
+	Name    string          `json:"name"`
+	Path    string          `json:"parent"`
+	SubCats []SubCategories `json:"subcat"`
+}
+
+type SubCategories struct {
+	Name        string   `json:"name"`
+	Default     bool     `json:"default"`
+	Description string   `json:"description"`
+	Files       []string `json:"files"`
+}
+
+type ConfigSub struct {
+	Class       string
+	Name        string
+	Description string
+	Download    bool
+}
+
 const download_url string = "https://raw.githubusercontent.com/drumbart/VFA-27_Ready_Room/master/"
 const total_download_size int = 4000
 
@@ -52,12 +72,14 @@ func main() {
 	fmt.Println("\nMake sure the script is in your .../Saved Games/DCS folder and your DCS is CLOSED")
 	fmt.Println("NOTE: This might take 5-10 minutes the first time downloading all the files")
 	fmt.Println("Make sure your DCS is CLOSED!")
-	countdown(2)
 
-	fmt.Println("Starting download of Wildcats files")
+	getKneeboards()
+
+	countdown(2)
+	fmt.Println("Starting download of Wildcats liveries")
 
 	updateChart = getUpdateChart()
-	// get_skins("https://api.github.com/repos/drumbart/VFA-27_Ready_Room/contents/Liveries")
+	get_skins("https://api.github.com/repos/drumbart/VFA-27_Ready_Room/contents/Liveries")
 
 	// Download complete info
 	fmt.Println("\n ----------------------------------------")
@@ -92,7 +114,6 @@ func get_skins(url string) {
 	for i := 0; i < len(items); i++ {
 		// fmt.Println(items[i].Path)
 		// fmt.Println(items[i].Type)
-		fmt.Println()
 
 		// Check file type of linked file - Exclude some file types from download
 		switch {
@@ -172,7 +193,7 @@ func checkFile(item Item) {
 		if fileIn == true { // File already exists and needs to be checked in update chart
 
 			if updateChart[chartIdx].delete == "true" { // Check if file is set to be removed
-				err := os.Remove(item.Path)
+				err := os.RemoveAll(item.Path)
 				if err != nil {
 					fmt.Println(err)
 				}
@@ -194,7 +215,7 @@ func checkFile(item Item) {
 				updatededTime := time.Unix(updateTime, 0)
 
 				if updatededTime.Before(modifiedtime) { // Check if file is up to date
-					err := os.Remove(item.Path) // If file is not up to date, remove and download new one
+					err := os.RemoveAll(item.Path) // If file is not up to date, remove and download new one
 					if err != nil {
 						fmt.Println(err)
 					}
@@ -276,4 +297,92 @@ func cleanUp() { // Removes downloaded support files
 	}
 
 	return
+}
+
+func getKneeboards() {
+	var categories []KneeboardCat
+	var configFields []ConfigSub
+	resp, err := http.Get("https://raw.githubusercontent.com/MrRavenMan/WCDownloader/main/Kneeboards.json")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	json.Unmarshal(body, &categories)
+
+	for i := 0; i < len(categories); i++ { // Loop through and add all fields to config array
+		for x := 0; x < len(categories[i].SubCats); x++ {
+			var configField ConfigSub = ConfigSub{
+				Class:       categories[i].Name,
+				Name:        categories[i].SubCats[x].Name,
+				Description: categories[i].SubCats[x].Description,
+				Download:    categories[i].SubCats[x].Default,
+			}
+			configFields = append(configFields, configField)
+		}
+	}
+
+	var c1 int
+	var all bool = false
+	fmt.Println("Which kneeboards do you wish to download")
+	println("Press 0 to use default download kneeboards")
+	println("Press 1 to download all kneeboards")
+	println("Press 2 to configure which kneeboards to download")
+
+	fmt.Scanln(&c1)
+
+	switch {
+	case c1 == 0:
+		fmt.Println("Using default settings")
+	case c1 == 1:
+		fmt.Println("Downloading everything")
+		all = true
+	case c1 == 2:
+		// Create a new config file if no exists
+		if _, err := os.Stat("KneeboardConfig.json"); err == nil {
+			file, _ := ioutil.ReadFile("KneeboardConfig.json") // Config files already exists, update it but keep settings
+			var oldConfigFields []ConfigSub
+			json.Unmarshal(file, &oldConfigFields)
+
+			for i := 0; i < len(configFields); i++ {
+				for x := 0; x < len(oldConfigFields); x++ {
+					if oldConfigFields[x].Class == configFields[i].Class && oldConfigFields[x].Name == configFields[i].Name {
+						configFields[i].Download = oldConfigFields[x].Download
+					}
+				}
+			}
+
+		}
+		file, _ := json.MarshalIndent(configFields, "", " ")
+
+		_ = ioutil.WriteFile("KneeboardConfig.json", file, 0644)
+
+		fmt.Println("You can configure which kneeboards you wish to download in the KneeboardConfig.json in your .../Saved Games/DCS folder")
+		fmt.Println("Change the Download to either true or false (No spaces or capital letters!) - please do not change anything")
+		fmt.Println("Press enter when you have saved and closed the config file")
+		fmt.Scanln()
+
+		fmt.Println("")
+
+	}
+	for i := 0; i < len(categories); i++ {
+		for x := 0; x < len(categories[i].SubCats); x++ {
+			for y := 0; y < len(configFields); y++ {
+				if categories[i].Name == configFields[y].Class && categories[i].SubCats[x].Name == configFields[y].Name {
+					if configFields[y].Download == true || all == true {
+						for f := 0; f < len(categories[i].SubCats[x].Files); f++ {
+							fmt.Printf("Downloading kneeboards for %s", categories[i].SubCats[x].Name)
+							download_file((categories[i].Path + categories[i].SubCats[x].Files[f]), 0)
+						}
+					}
+				}
+			}
+		}
+	}
 }
