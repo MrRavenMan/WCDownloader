@@ -1,3 +1,4 @@
 1622111011 bob.txt true
 1622111011 /Liveries/f-14b true
-1620112011 test.txt false
+1622111011 /Liveries/FA-18C_hornet/VFA-27 Birdman v2 false
+1622111011 /Liveries/FA-18C_hornet/VFA-27 Driftwood v2/description.lua true
