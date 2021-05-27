@@ -6,6 +6,7 @@
             {
                 "name": "basic",
                 "default": true,
+                "description": "These are the basic kneeboards. Recommended for all Wildcat players",
                 "files": [
                 "/WC TAC-C2.png",
                 "/Wildcats Brevity Codes.png",
@@ -22,6 +23,7 @@
             {
                 "name": "basic",
                 "default": true,
+                "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
                 "files": [
                 "00_FA-18C_hornet_KS_Day_03.png",
                 "JCP_Airfields_1.png",
@@ -29,7 +31,8 @@
                 ]
             },
             {
-                "name": "Case 1 training",
+                "name": "Case 1",
+                "description": "These kneeboards which may help you with your CASE 1 landings",
                 "default": false,
                 "files": [
                 "JCP_VFA-27_1.png"
