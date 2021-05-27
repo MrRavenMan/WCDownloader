@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -24,9 +22,9 @@ const (
 )
 
 type Update struct {
-	date   string
-	path   string
-	delete string
+	Date   string `json:"date"`
+	Path   string `json:"path"`
+	Delete bool   `json:"delete"`
 }
 
 type Item struct {
@@ -87,8 +85,6 @@ func main() {
 	fmt.Printf("%d files downloaded \n", files_downloaded)
 	fmt.Printf("%d Mb downloaded \n", (bytes_downloaded / 1048576))
 
-	cleanUp()
-
 	fmt.Printf(WarningColor, "\n Press the Enter Key to stop anytime")
 	fmt.Scanln()
 
@@ -147,40 +143,20 @@ func get_skins(url string) {
 
 func getUpdateChart() []Update {
 	// Download update chart from github
-	resp, e := http.Get("https://raw.githubusercontent.com/MrRavenMan/WCDownloader/main/update_charts.txt")
+	resp, e := http.Get("https://raw.githubusercontent.com/MrRavenMan/WCDownloader/main/update_chart.json")
 	if e != nil {
 		fmt.Println(e)
 	}
 	defer resp.Body.Close()
 
-	// Create the file
-	out, e1 := os.Create("update_chart.txt")
-	if e1 != nil {
-		fmt.Println(e1)
-	}
-	defer out.Close()
-
-	// Write the body to file
-	_, _ = io.Copy(out, resp.Body)
-
-	// Make the chart slice
-	chart := make([]Update, 0, 4)
-
-	var fileName string = "update_chart.txt"
-
-	file, e := os.Open(fileName)
-	if e != nil {
-		fmt.Println("Error is = ", e)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		s := strings.Split(scanner.Text(), " ")
-		var update Update
-		update.date, update.path, update.delete = s[0], s[1], s[2]
-		chart = append(chart, update)
-	}
-	file.Close()
+	var chart []Update
+
+	json.Unmarshal(body, &chart)
 
 	return chart
 }
@@ -192,7 +168,7 @@ func checkFile(item Item) {
 		// Check if file is in update chart
 		if fileIn == true { // File already exists and needs to be checked in update chart
 
-			if updateChart[chartIdx].delete == "true" { // Check if file is set to be removed
+			if updateChart[chartIdx].Delete == true { // Check if file is set to be removed
 				err := os.RemoveAll(item.Path)
 				if err != nil {
 					fmt.Println(err)
@@ -208,7 +184,7 @@ func checkFile(item Item) {
 				}
 				modifiedtime := file.ModTime()
 
-				updateTime, err := strconv.ParseInt(updateChart[chartIdx].date, 10, 64) // Convert date from update chart to time obj
+				updateTime, err := strconv.ParseInt(updateChart[chartIdx].Date, 10, 64) // Convert date from update chart to time obj
 				if err != nil {
 					panic(err)
 				}
@@ -229,6 +205,8 @@ func checkFile(item Item) {
 					fmt.Printf("File %s already exists and is up to date! \n", item.Name)
 				}
 			}
+		} else { // File already exist but is not in update chart
+			fmt.Printf("File %s already exists and is up to date! \n", item.Name)
 		}
 	} else { // File does not already exist and needs to be downloaded
 		fmt.Printf("Downloading %s at %s \n", item.Name, item.Path)
@@ -242,7 +220,7 @@ func checkFile(item Item) {
 
 func fileInUpdateChart(path string) (bool, int) {
 	for i, v := range updateChart {
-		if v.path == path {
+		if v.Path == path {
 			return true, i
 		}
 	}
@@ -252,7 +230,6 @@ func fileInUpdateChart(path string) (bool, int) {
 
 // Downlooad file from url and put  innto path
 func download_file(path string, size int) error {
-
 	// Get the data
 	resp, err := http.Get((download_url + path))
 	if err != nil {
@@ -285,18 +262,6 @@ func countdown(count int) {
 		time.Sleep(time.Second)
 		count--
 	}
-}
-
-func cleanUp() { // Removes downloaded support files
-	fmt.Println("Cleaning up, please wait...")
-	// Remove update_chart file from pc
-	time.Sleep(time.Second * 2)
-	err := os.Remove("update_chart.txt")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	return
 }
 
 func getKneeboards() {
@@ -371,18 +336,34 @@ func getKneeboards() {
 		fmt.Println("")
 
 	}
+
+	if _, err := os.Stat("Kneeboard/"); os.IsNotExist(err) { // Create Kneeboard dir if not already exist
+		os.Mkdir("Kneeboard/", 0755)
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for i := 0; i < len(categories); i++ {
+		// If directory does not exist already, make it
+		if _, err := os.Stat(categories[i].Path); os.IsNotExist(err) {
+			os.Mkdir(categories[i].Path, 0755)
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
 		for x := 0; x < len(categories[i].SubCats); x++ {
+			fmt.Printf("Downloading kneeboards for %s - %s \n", categories[i].Name, categories[i].SubCats[x].Name)
 			for y := 0; y < len(configFields); y++ {
 				if categories[i].Name == configFields[y].Class && categories[i].SubCats[x].Name == configFields[y].Name {
 					if configFields[y].Download == true || all == true {
 						for f := 0; f < len(categories[i].SubCats[x].Files); f++ {
-							fmt.Printf("Downloading kneeboards for %s", categories[i].SubCats[x].Name)
 							download_file((categories[i].Path + categories[i].SubCats[x].Files[f]), 0)
 						}
 					}
 				}
 			}
+			fmt.Printf("Completed downloading kneeboards for %s - %s \n", categories[i].Name, categories[i].SubCats[x].Name)
 		}
 	}
 }

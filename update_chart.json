@@ -1,17 +1,17 @@
 [
     {
         "date": "1622111011",
-        "path":  "/Liveries/f-14b",
+        "path":  "Liveries/f-14b",
         "delete": true
     },
     {
         "date": "1622111011",
-        "path":  "/Liveries/FA-18C_hornet/VFA-27 Birdman v2",
+        "path":  "Liveries/FA-18C_hornet/VFA-27 Birdman v2",
         "delete": true
     },
     {
         "date": "1622111011",
-        "path":  "/Liveries/FA-18C_hornet/VFA-27 Driftwood v2/description.lua",
+        "path":  "Liveries/FA-18C_hornet/VFA-27 Driftwood v2/description.lua",
         "delete": false
     }
 ]
