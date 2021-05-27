@@ -57,13 +57,16 @@ func main() {
 	fmt.Println("Starting download of Wildcats files")
 
 	updateChart = getUpdateChart()
-	get_skins("https://api.github.com/repos/drumbart/VFA-27_Ready_Room/contents/Liveries")
+	// get_skins("https://api.github.com/repos/drumbart/VFA-27_Ready_Room/contents/Liveries")
 
 	// Download complete info
 	fmt.Println("\n ----------------------------------------")
 	fmt.Printf(NoticeColor, "Download completed\n")
 	fmt.Printf("%d files downloaded \n", files_downloaded)
 	fmt.Printf("%d Mb downloaded \n", (bytes_downloaded / 1048576))
+
+	cleanUp()
+
 	fmt.Printf(WarningColor, "\n Press the Enter Key to stop anytime")
 	fmt.Scanln()
 
@@ -122,9 +125,27 @@ func get_skins(url string) {
 }
 
 func getUpdateChart() []Update {
+	// Download update chart from github
+	resp, e := http.Get("https://raw.githubusercontent.com/MrRavenMan/WCDownloader/main/update_charts.txt")
+	if e != nil {
+		fmt.Println(e)
+	}
+	defer resp.Body.Close()
+
+	// Create the file
+	out, e1 := os.Create("update_chart.txt")
+	if e1 != nil {
+		fmt.Println(e1)
+	}
+	defer out.Close()
+
+	// Write the body to file
+	_, _ = io.Copy(out, resp.Body)
+
+	// Make the chart slice
 	chart := make([]Update, 0, 4)
 
-	var fileName string = "update_charts.txt"
+	var fileName string = "update_chart.txt"
 
 	file, e := os.Open(fileName)
 	if e != nil {
@@ -243,4 +264,16 @@ func countdown(count int) {
 		time.Sleep(time.Second)
 		count--
 	}
+}
+
+func cleanUp() { // Removes downloaded support files
+	fmt.Println("Cleaning up, please wait...")
+	// Remove update_chart file from pc
+	time.Sleep(time.Second * 2)
+	err := os.Remove("update_chart.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return
 }
