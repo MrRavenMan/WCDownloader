@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -64,6 +65,8 @@ var bytes_downloaded int64 = 0
 var total_size int = 0
 var files_downloaded int = 0
 
+var firstTime string
+
 func main() {
 	// Before run info
 	fmt.Println("Welcome to the Wildcats File Downloader!")
@@ -71,6 +74,10 @@ func main() {
 	fmt.Println("NOTE: This might take 5-10 minutes the first time downloading all the files")
 	fmt.Println("Make sure your DCS is CLOSED!")
 
+	fmt.Println("Is this your first time setting up? [y/N] ")
+	fmt.Scanln(&firstTime)
+
+	basicCheck()
 	getKneeboards()
 
 	countdown(2)
@@ -124,6 +131,7 @@ func get_skins(url string) {
 				// If directory does not exist already, make it
 				if _, err := os.Stat(items[i].Path); os.IsNotExist(err) {
 					os.Mkdir(items[i].Path, 0755)
+					fmt.Printf("Making directory %s \n", items[i].Path)
 				}
 				if err != nil {
 					log.Fatal(err)
@@ -162,7 +170,14 @@ func getUpdateChart() []Update {
 }
 
 func checkFile(item Item) {
-	if _, err := os.Stat(item.Path); err == nil { // First check if file is already downloaded
+	if strings.Contains(firstTime, "y") || strings.Contains(firstTime, "Y") {
+		fmt.Printf("Downloading %s at %s \n", item.Name, item.Path)
+		e := download_file(item.Path, item.Size)
+		if e != nil {
+			panic(e)
+		}
+		fmt.Printf("Downloaded: %s - %d MB \n", item.Name, (item.Size / 1048576))
+	} else if _, err := os.Stat(item.Path); err == nil { // First check if file is already downloaded
 
 		fileIn, chartIdx := fileInUpdateChart(item.Path)
 		// Check if file is in update chart
@@ -360,10 +375,23 @@ func getKneeboards() {
 						for f := 0; f < len(categories[i].SubCats[x].Files); f++ {
 							download_file((categories[i].Path + categories[i].SubCats[x].Files[f]), 0)
 						}
+					} else {
+						for f := 0; f < len(categories[i].SubCats[x].Files); f++ {
+							err := os.Remove((categories[i].Path + categories[i].SubCats[x].Files[f]))
+							if err != nil {
+								fmt.Println(err)
+							}
+							fmt.Printf("Removing kneeboard %s ", categories[i].SubCats[x].Files[f])
+						}
 					}
 				}
 			}
 			fmt.Printf("Completed downloading kneeboards for %s - %s \n", categories[i].Name, categories[i].SubCats[x].Name)
 		}
 	}
+}
+
+func basicCheck() {
+	os.Mkdir("Kneeboard", 0755)
+	os.Mkdir("Liveries", 0755)
 }
