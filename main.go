@@ -81,6 +81,7 @@ func main() {
 	getKneeboards()
 
 	countdown(2)
+
 	fmt.Println("Starting download of Wildcats liveries")
 
 	updateChart = getUpdateChart()
@@ -128,6 +129,7 @@ func get_skins(url string) {
 			continue
 		default:
 			if items[i].Type == "dir" {
+				_ = update_check(items[i])
 				// If directory does not exist already, make it
 				if _, err := os.Stat(items[i].Path); os.IsNotExist(err) {
 					os.Mkdir(items[i].Path, 0755)
@@ -178,58 +180,22 @@ func checkFile(item Item) {
 		}
 		fmt.Printf("Downloaded: %s - %d MB \n", item.Name, (item.Size / 1048576))
 	} else if _, err := os.Stat(item.Path); err == nil { // First check if file is already downloaded
-
-		fileIn, chartIdx := fileInUpdateChart(item.Path)
-		// Check if file is in update chart
-		if fileIn == true { // File already exists and needs to be checked in update chart
-
-			if updateChart[chartIdx].Delete == true { // Check if file is set to be removed
-				err := os.RemoveAll(item.Path)
-				if err != nil {
-					fmt.Println(err)
-				}
-				fmt.Printf("Removing %s \n", item.Name)
-
-			} else { // If file is not set to be removed, check if up to date
-
-				// get last modified time from file on pc
-				file, err := os.Stat(item.Path)
-				if err != nil {
-					fmt.Println(err)
-				}
-				modifiedtime := file.ModTime()
-
-				updateTime, err := strconv.ParseInt(updateChart[chartIdx].Date, 10, 64) // Convert date from update chart to time obj
-				if err != nil {
-					panic(err)
-				}
-				updatededTime := time.Unix(updateTime, 0)
-
-				if updatededTime.Before(modifiedtime) { // Check if file is up to date
-					err := os.RemoveAll(item.Path) // If file is not up to date, remove and download new one
-					if err != nil {
-						fmt.Println(err)
-					}
-					fmt.Printf("File %s is outdated, downloading newest version \n", item.Name)
-					e := download_file(item.Path, item.Size)
-					if e != nil {
-						panic(e)
-					}
-					fmt.Printf("Downloaded: %s - %d", item.Name, (item.Size / 1048576))
-				} else {
-					fmt.Printf("File %s already exists and is up to date! \n", item.Name)
-				}
+		download := update_check(item)
+		if download == true {
+			e := download_file(item.Path, item.Size)
+			if e != nil {
+				panic(e)
 			}
-		} else { // File already exist but is not in update chart
-			fmt.Printf("File %s already exists and is up to date! \n", item.Name)
+			fmt.Printf("Downloaded: %s - %d MB \n", item.Name, (item.Size / 1048576))
 		}
+
 	} else { // File does not already exist and needs to be downloaded
 		fmt.Printf("Downloading %s at %s \n", item.Name, item.Path)
 		e := download_file(item.Path, item.Size)
 		if e != nil {
 			panic(e)
 		}
-		fmt.Printf("Downloaded: %s - %d", item.Name, (item.Size / 1048576))
+		fmt.Printf("Downloaded: %s - %d MB \n", item.Name, (item.Size / 1048576))
 	}
 }
 
@@ -241,6 +207,52 @@ func fileInUpdateChart(path string) (bool, int) {
 	}
 	var i int = 0
 	return false, i
+}
+
+func update_check(item Item) bool {
+	fileIn, chartIdx := fileInUpdateChart(item.Path)
+	// Check if file is in update chart
+	if fileIn == true { // File already exists and needs to be checked in update chart
+
+		if updateChart[chartIdx].Delete == true { // Check if file is set to be removed
+			err := os.RemoveAll(item.Path)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Printf("Removing %s \n", item.Name)
+			return false
+
+		} else { // If file is not set to be removed, check if up to date
+
+			// get last modified time from file on pc
+			file, err := os.Stat(item.Path)
+			if err != nil {
+				fmt.Println(err)
+			}
+			modifiedtime := file.ModTime()
+
+			updateTime, err := strconv.ParseInt(updateChart[chartIdx].Date, 10, 64) // Convert date from update chart to time obj
+			if err != nil {
+				panic(err)
+			}
+			updatededTime := time.Unix(updateTime, 0)
+
+			if updatededTime.Before(modifiedtime) { // Check if file is up to date
+				err := os.RemoveAll(item.Path) // If file is not up to date, remove and download new one
+				if err != nil {
+					fmt.Println(err)
+				}
+				fmt.Printf("File %s is outdated, downloading newest version \n", item.Name)
+				return true
+			} else {
+				fmt.Printf("File %s already exists and is up to date! \n", item.Name)
+				return false
+			}
+		}
+	} else { // File already exist but is not in update chart
+		fmt.Printf("File %s already exists and is up to date! \n", item.Name)
+		return false
+	}
 }
 
 // Downlooad file from url and put  innto path
@@ -344,7 +356,7 @@ func getKneeboards() {
 		_ = ioutil.WriteFile("KneeboardConfig.json", file, 0644)
 
 		fmt.Println("You can configure which kneeboards you wish to download in the KneeboardConfig.json in your .../Saved Games/DCS folder")
-		fmt.Println("Change the Download to either true or false (No spaces or capital letters!) - please do not change anything")
+		fmt.Println("Change the Download to either true or false (No spaces or capital letters!) - please do not change anything else!")
 		fmt.Println("Press enter when you have saved and closed the config file")
 		fmt.Scanln()
 
