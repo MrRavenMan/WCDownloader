@@ -13,5 +13,10 @@
         "date": "1622111011",
         "path":  "Liveries/FA-18C_hornet/VFA-27 Driftwood v2/description.lua",
         "delete": false
+    },
+    {
+        "date": "1622111011",
+        "path":  "Liveries/FA-18C_hornet/VFA-27 Drumbart v2/description.lua",
+        "delete": true
     }
 ]
