@@ -1,17 +1,18 @@
 [
     {
-        "name": "Basic",
+        "name": "Default",
         "parent": "Kneeboard/",
         "subcat": [
             {
-                "name": "basic",
+                "name": "Basic",
                 "default": true,
+                "date": 1624029598,
                 "description": "These are the basic kneeboards. Recommended for all Wildcat players",
                 "files": [
-                "WC TAC-C2.png",
-                "Wildcats Brevity Codes.png",
-                "Wildcats SAM Threat.jpg",
-                "Wildcats SSR CODES.png"
+                    "WC TAC-C2.png",
+                    "Wildcats Brevity Codes.png",
+                    "Wildcats SAM Threat.jpg",
+                    "Wildcats SSR CODES.png"
                 ]
             }
         ]
@@ -21,21 +22,23 @@
         "parent": "Kneeboard/FA-18C_hornet/",
         "subcat": [
             {
-                "name": "basic",
+                "name": "Basic",
                 "default": true,
+                "date": 1634029598,
                 "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
                 "files": [
-                "00_FA-18C_hornet_KS_Day_03.png",
-                "JCP_Airfields_1.png",
-                "JCP_INTERFLIGHT.png"
+                    "00_FA-18C_hornet_KS_Day_03.png",
+                    "JCP_Airfields_1.png",
+                    "JCP_INTERFLIGHT.png"
                 ]
             },
             {
                 "name": "Case 1",
+                "date": 1624029598,
                 "description": "These kneeboards which may help you with your CASE 1 landings",
                 "default": false,
                 "files": [
-                "JCP_VFA-27_1.png"
+                    "JCP_VFA-27_1.png"
                 ]
             }
         ]
@@ -47,22 +50,24 @@
             {
                 "name": "basic",
                 "default": true,
+                "date": 1624029598,
                 "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
                 "files": [
-                "JCP_Airfields_1.png",
-                "JCP_FS14_1.png",
-                "JCP_INTERFLIGHT.png"
+                    "JCP_Airfields_1.png",
+                    "JCP_FS14_1.png",
+                    "JCP_INTERFLIGHT.png"
                 ]
             },
             {
                 "name": "Case 1",
                 "description": "These kneeboards which may help you with your CASE 1 landings",
                 "default": false,
+                "date": 1624029598,
                 "files": [
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-01.png",
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-02.png",
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-03.png"
-                    ]
+                ]
             }
         ]
     }
