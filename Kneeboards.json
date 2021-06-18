@@ -1,7 +1,7 @@
 [
     {
         "name": "Default",
-        "parent": "Kneeboard/",
+        "parent": "/Kneeboard/",
         "subcat": [
             {
                 "name": "Basic",
@@ -19,7 +19,7 @@
     },
     {
         "name": "VFA-27",
-        "parent": "Kneeboard/FA-18C_hornet/",
+        "parent": "/Kneeboard/FA-18C_hornet/",
         "subcat": [
             {
                 "name": "Basic",
@@ -45,7 +45,7 @@
     },
     {
         "name": "14TH FS",
-        "parent": "Kneeboard/F-16C_50/",
+        "parent": "/Kneeboard/F-16C_50/",
         "subcat": [
             {
                 "name": "basic",
