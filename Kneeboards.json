@@ -8,10 +8,10 @@
                 "default": true,
                 "description": "These are the basic kneeboards. Recommended for all Wildcat players",
                 "files": [
-                "/WC TAC-C2.png",
-                "/Wildcats Brevity Codes.png",
-                "/Wildcats SAM Threat.jpg",
-                "/Wildcats SSR CODES.png"
+                "WC TAC-C2.png",
+                "Wildcats Brevity Codes.png",
+                "Wildcats SAM Threat.jpg",
+                "Wildcats SSR CODES.png"
                 ]
             }
         ]
