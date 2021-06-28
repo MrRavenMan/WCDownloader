@@ -21,11 +21,11 @@
     {
         "name": "VFA-27",
         "parent": "/Kneeboard/FA-18C_hornet/",
-        "hide": true,
+        "hide": false,
         "subcat": [
             {
                 "name": "Basic",
-                "default": true,
+                "default": false,
                 "date": 1634029598,
                 "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
                 "files": [
@@ -52,7 +52,7 @@
         "subcat": [
             {
                 "name": "basic",
-                "default": true,
+                "default": false,
                 "date": 1624029598,
                 "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
                 "files": [
