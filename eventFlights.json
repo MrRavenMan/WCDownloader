@@ -27,16 +27,16 @@
                 "sub_flights": true,
                 "flights": [
                     {
-                        "flight_name": "Charger5-1"
+                        "wingman_name": "Charger6-1"
                     },
                     {
-                        "flight_name": "Charger5-2"
+                        "wingman_name": "Charger6-2"
                     },
                     {
-                        "flight_name": "Charger5-3"
+                        "wingman_name": "Charger6-3"
                     },
                     {
-                        "flight_name": "Charger5-4"
+                        "wingman_name": "Charger6-4"
                     }
                 ]
             }
