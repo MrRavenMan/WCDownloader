@@ -4,28 +4,21 @@
         "flights": [
             {
                 "flight_name": "Charger1",
-                "sub_flights": false
             },
             {
                 "flight_name": "Charger2",
-                "sub_flights": false
             },
             {
                 "flight_name": "Charger3",
-                "sub_flights": false
             },
             {
                 "flight_name": "Charger4",
-                "sub_flights": false
             },
             {
                 "flight_name": "Charger5",
-                "sub_flights": false
             },
             {
                 "flight_name": "Charger6",
-                "sub_flights": true,
-                "flights": 5
             }
         ]
     },
@@ -34,27 +27,21 @@
         "flights": [
             {
                 "flight_name": "Wood1",
-                "sub_flights": false
             },
             {
                 "flight_name": "Wood2",
-                "sub_flights": false
             },
             {
                 "flight_name": "Wood3",
-                "sub_flights": false
             },
             {
                 "flight_name": "Wood4",
-                "sub_flights": false
             },
             {
                 "flight_name": "Wood5",
-                "sub_flights": false
             },
             {
                 "flight_name": "Wood6",
-                "sub_flights": false
             }
         ]
     }
