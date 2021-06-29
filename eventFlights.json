@@ -25,14 +25,7 @@
             {
                 "flight_name": "Charger6",
                 "sub_flights": true,
-                "flights": [
-                    "Charger6-1",
-                    "Charger6-2",
-                    "Charger6-3",
-                    "Charger6-4",
-                    "Charger6-5",
-                    "Charger6-6"
-                ]
+                "flights": 5
             }
         ]
     },
