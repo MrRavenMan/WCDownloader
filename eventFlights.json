@@ -3,22 +3,22 @@
         "name": "VFA-27",
         "flights": [
             {
-                "flight_name": "Charger 1"
+                "flight_name": "Charger1"
             },
             {
-                "flight_name": "Charger 2"
+                "flight_name": "Charger2"
             },
             {
-                "flight_name": "Charger 3"
+                "flight_name": "Charger3"
             },
             {
-                "flight_name": "Charger 4"
+                "flight_name": "Charger4"
             },
             {
-                "flight_name": "Charger 5"
+                "flight_name": "Charger5"
             },
             {
-                "flight_name": "Charger 6"
+                "flight_name": "Charger6"
             }
         ]
     },
@@ -26,22 +26,22 @@
         "name": "14TH FS",
         "flights": [
             {
-                "flight_name": "Wood 1"
+                "flight_name": "Wood1"
             },
             {
-                "flight_name": "Wood 2"
+                "flight_name": "Wood2"
             },
             {
-                "flight_name": "Wood 3"
+                "flight_name": "Wood3"
             },
             {
-                "flight_name": "Wood 4"
+                "flight_name": "Wood4"
             },
             {
-                "flight_name": "Wood 5"
+                "flight_name": "Wood5"
             },
             {
-                "flight_name": "Wood 6"
+                "flight_name": "Wood6"
             }
         ]
     }
