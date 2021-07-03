@@ -44,5 +44,28 @@
                 "flight_name": "Wood6"
             }
         ]
+    },
+    {
+        "name": "163rd FS BS",
+        "flights": [
+            {
+                "flight_name": "Hog1"
+            },
+            {
+                "flight_name": "Hog2"
+            },
+            {
+                "flight_name": "Hog3"
+            },
+            {
+                "flight_name": "Hog4"
+            },
+            {
+                "flight_name": "Hog5"
+            },
+            {
+                "flight_name": "Hog6"
+            }
+        ]
     }
 ]
