@@ -27,7 +27,7 @@
                 "name": "Basic",
                 "default": false,
                 "date": 1634029598,
-                "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
+                "description": "These are the basic kneeboards for VFA-27 Royal Maces. RECOMMENDED",
                 "files": [
                     "00_FA-18C_hornet_KS_Day_03.png",
                     "JCP_Airfields_1.png",
@@ -51,10 +51,10 @@
         "hide": true,
         "subcat": [
             {
-                "name": "basic",
+                "name": "Basic",
                 "default": false,
                 "date": 1624029598,
-                "description": "These are the basic kneeboards for VFA-27 pilots. RECOMMENDED",
+                "description": "These are the basic kneeboards for 14th Fighting Samurai's. RECOMMENDED",
                 "files": [
                     "JCP_Airfields_1.png",
                     "JCP_FS14_1.png",
@@ -62,14 +62,32 @@
                 ]
             },
             {
-                "name": "Case 1",
-                "description": "These kneeboards which may help you with your CASE 1 landings",
+                "name": "HARM Tables",
+                "description": "These kneeboards container Harm tables for f-16 AGM88C Harms",
                 "default": false,
                 "date": 1624029598,
                 "files": [
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-01.png",
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-02.png",
                     "DCS-F-16C-AGM88C-HARM-ALIC-Tables-v210-03.png"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "163RD FS BS",
+        "parent": "/Kneeboard/F-16C_50/",
+        "hide": true,
+        "subcat": [
+            {
+                "name": "Basic",
+                "default": false,
+                "date": 1624029598,
+                "description": "These are the basic kneeboards for 163RD FS Blacksnakes. PLACEHOLDER KNEEBOARDS. RECOMMENDED",
+                "files": [
+                    "JCP_Airfields_1.png",
+                    "JCP_FS14_1.png",
+                    "JCP_INTERFLIGHT.png"
                 ]
             }
         ]
